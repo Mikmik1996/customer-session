@@ -1,14 +1,16 @@
 <?php
-$servername = "localhost";
-$username = "root";       // default XAMPP username
-$password = "";           // default XAMPP password is empty
-$dbname = "wiijump_db";   // your database name
+$host = getenv('DB_HOST');
+$port = getenv('DB_PORT');
+$dbname = getenv('DB_NAME');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASS');
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pass");
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+    die("Connection failed: " . pg_last_error());
 }
 ?>
+
