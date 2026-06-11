@@ -5,12 +5,13 @@ $dbname = getenv('DB_NAME');
 $user = getenv('DB_USER');
 $pass = getenv('DB_PASS');
 
-// Create connection
-$conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$pass");
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . pg_last_error());
+try {
+    $conn = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $pass);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // echo "Connected successfully"; // optional test line
+} catch (PDOException $e) {
+    die("Connection failed: " . $e->getMessage());
 }
 ?>
+
 
